@@ -1,11 +1,16 @@
 
 from math import ceil
 
-TAX_EXEMPTED_ITEMS = ["chocolate", "book", "pill", "chocolates", "books", "pills"]
+#List of items that are exempt from basic tax
+TAX_EXEMPTED_ITEMS = ["chocolate", "book", "pill", "chocolates", "books", "pills"] 
 
 def calculate_rounded_tax(amount):
-    return ceil(round(amount , 2) * 20) / 20
+    """Function for rounding up tax"""
+    #multiply and divide by 20 because 1/0.05 = 20 as the values are rounded up to the nearest 0.05
+    return ceil(round(amount , 2) * 20) / 20 
+
 class Product():
+    """Class for item"""
     def __init__(self, item):
         self.name = item["Name"]
         self.price = item["Price"]
@@ -14,7 +19,7 @@ class Product():
         self.tax = self.calculate_tax()
 
     def calculate_tax(self):
-        
+        """To calculate tax"""
         exempted = False
         salesTax = 0
         importTax = 0
@@ -25,9 +30,9 @@ class Product():
             if category in [x.lower() for x in name]:
                 exempted = True
                 break
-        if self.imported:
+        if self.imported: #Check if item is exempt
             salesTax = calculate_rounded_tax(float(self.price) * 0.05)
-        if not exempted:
+        if not exempted: #Check if item is imported
             importTax = calculate_rounded_tax(float(self.price) * 0.1)
-        totalTax = salesTax + importTax
+        totalTax = salesTax + importTax #Add both taxes to totalTax 
         return totalTax

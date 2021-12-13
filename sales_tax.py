@@ -36,3 +36,39 @@ class Product():
             importTax = calculate_rounded_tax(float(self.price) * 0.1)
         totalTax = salesTax + importTax #Add both taxes to totalTax 
         return totalTax
+
+class Basket():
+    """Class to add the products"""
+    def __init__(self):
+        self.basket = [] #Empty basket initially
+    def add(self, item):
+        self.basket.append(item)
+
+    def total_tax(self): #For calculating total tax of basket
+        basketTax = 0
+        for item in self.basket:
+            currentItem = Product(item)
+            basketTax = basketTax + calculate_rounded_tax(currentItem.tax * currentItem.quantity)
+        return basketTax
+
+    def subtotal(self): #For calculating subtotal of basket
+        basketSubtotal = 0
+        for item in self.basket:
+            currentItem = Product(item)
+            basketSubtotal = basketSubtotal + currentItem.price * currentItem.quantity
+        return basketSubtotal
+
+    def total(self): #For calculating grand total of basket
+        basketTax = self.total_tax()
+        basketSubtotal = self.subtotal()
+        basketTotal = basketTax + basketSubtotal
+        return basketTax, basketTotal
+
+    def print_receipt(self):#Printing the receipt
+        for item in self.basket:
+            currentItem = Product(item)
+            total = round(float(currentItem.price) + currentItem.tax, 2)
+            print(currentItem.quantity, currentItem.name, "\b\b: {:.2f}".format(total))
+            basketTax, basketTotal = self.total()
+        print("Sales Taxes: {0:.2f}".format( basketTax))
+        print("Total:  {0:.2f}".format(basketTotal))

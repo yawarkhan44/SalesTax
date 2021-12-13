@@ -2,15 +2,25 @@ import unittest
 import sales_tax
 
 class TestMiscellaneous(unittest.TestCase):
-    """Checks the rounding up of taxes i.e.  for a tax rate of n%, a shelf price of p 
-    contains (np/100 rounded up to the nearest 0.05) amount of sales tax"""
+    
     def test_calculate_rounded_tax(self):
-
+        """Checks the rounding up of taxes i.e.  for a tax rate of n%, a shelf price of p 
+        contains (np/100 rounded up to the nearest 0.05) amount of sales tax"""
         taxes = [1.49, 4.75, 2.375, 2.799, 1.3995, 1.899, 0.5625, 2.375] #dummy values to check
-        roundedTaxes = [1.5, 4.75, 2.4, 2.8, 1.4, 1.9, 0.6, 2.4] #answers to the values above to ensure correct functionality
+        roundedTaxes = [1.5, 4.75, 2.4, 2.8, 1.4, 1.9, 0.6, 2.4] #answers to the values above
 
         for i in range(0, len(taxes)):
             self.assertEqual(sales_tax.calculate_rounded_tax(taxes[i]), roundedTaxes[i])
+
+    def test_make_order(self):
+        """Checks if the properties from the file are extracted correctly"""
+        order = sales_tax.make_order("order3.txt") #Input file
+        items = [{'Name': 'imported bottle of perfume ', 'Price': 27.99, 'Quantity': 1, 'Imported': True}, 
+            {'Name': 'bottle of perfume ', 'Price': 18.99, 'Quantity': 1, 'Imported': False}, 
+            {'Name': 'packet of headache pills ', 'Price': 9.75, 'Quantity': 1, 'Imported': False}, 
+            {'Name': 'imported box of chocolates ', 'Price': 11.25, 'Quantity': 1, 'Imported': True}] #This should be returned
+        self.assertEqual(order, items)
+
 
 class TestProduct(unittest.TestCase):
     """Checks the product to see if basic and import taxes are calculated correctly."""
@@ -29,7 +39,7 @@ class TestBasket(unittest.TestCase):
     def setUp(self):
         #A list of items to be added to basket
         self.basket = sales_tax.Basket()
-        items = [{"Name": "bottle of perfume", "Price": 27.99, "Quantity": 1, "Imported": True},
+        items = [{"Name": "imported bottle of perfume", "Price": 27.99, "Quantity": 1, "Imported": True},
                 {"Name": "bottle of perfume", "Price": 18.99, "Quantity": 1, "Imported": False},
                 {"Name": "packet of headache pills", "Price": 9.75, "Quantity": 1, "Imported": False},
                 {"Name": "imported box of chocolates", "Price": 11.25, "Quantity": 1, "Imported": True}]

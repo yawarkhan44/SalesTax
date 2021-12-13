@@ -70,5 +70,6 @@ Total: 74.68
 # How to run the program:
 
 Load the project into your desired IDE, I used Visual Studio Code for this.
+
 Open the file sales_tax.py, modify the variable 'input' in main() function to point to the input file and run the sales_tax.py
 
